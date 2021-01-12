@@ -1,0 +1,39 @@
+.FinishedQuiz {
+  max-width: 400px;
+  padding: 20px;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  margin: 0 auto;
+}
+
+.FinishedQuiz ul {
+  margin: 0 0 30px 0;
+  padding: 0;
+  list-style-type: none;
+  color: #fff;
+}
+
+.FinishedQuiz ul li {
+  margin-bottom: 10px;
+}
+
+.FinishedQuiz ul li:last-child {
+  margin-bottom: 0;
+}
+
+.FinishedQuiz p {
+  color: #fff;
+  margin-bottom: 15px;
+}
+
+.FinishedQuiz ul li i {
+  margin-left: 10px;
+}
+
+.success {
+  color: rgba(0, 255, 0, 0.5);
+}
+
+.error {
+  color: rgba(255, 0, 0, 0.5);
+}
