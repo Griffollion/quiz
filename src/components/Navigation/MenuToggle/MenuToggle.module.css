@@ -5,6 +5,7 @@
   font-size: 20px;
   color: #fff;
   transition: opacity.25s, left 0.25s;
+  z-index: 100;
 }
 
 .MenuToggle:hover {
@@ -12,5 +13,5 @@
 }
 
 .open {
-  left: 200px;
+  left: 320px;
 }
