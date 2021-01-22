@@ -1,0 +1,33 @@
+.Auth {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: linear-gradient(90deg, rgba(134, 108, 133, 0.47), rgba(92, 0, 87, 0.65));
+  height: 100%;
+  width: 100%;
+
+  padding-top: 100px;
+}
+
+.Auth h1 {
+  margin: 0 0 30px 0;
+  color: #fff;
+}
+
+.Auth__container {
+  max-width: 100%;
+  width: 400px;
+  padding: 40px;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 5px;
+  border: 1px solid #fff;
+
+}
+
+.Auth__container form {
+  display: grid;
+  grid-template-areas: 'input-1 input-2' 'button-1 button-2';
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px;
+}
+
