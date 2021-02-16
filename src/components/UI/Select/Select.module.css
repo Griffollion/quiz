@@ -1,0 +1,8 @@
+.Select {
+    width: 100%;
+}
+
+.Select select {
+    width: 100%;
+    height: 30px
+}

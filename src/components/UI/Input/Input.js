@@ -3,7 +3,7 @@ import classes from "./Input.module.css";
 
 const Input = (props) => {
   function isInvalid({ valid, touched, shouldValidate }) {
-    return !valid && shouldValidate && touched
+    return !valid && shouldValidate && touched;
   }
 
   const inputType = props.type || "text";
