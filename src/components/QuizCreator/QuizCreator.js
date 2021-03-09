@@ -1,20 +1,22 @@
 import React, { Component } from "react";
 import classes from "./QuizCreator.module.css";
-import Button from "../UI/Button/Button";
-import Input from "../UI/Input/Input";
-import Select from "../UI/Select/Select";
+import Button from "../../components/UI/Button/Button";
+import Input from "../../components/UI/Input/Input";
+import Select from "../../components/UI/Select/Select";
 import {
   createControl,
   validate,
   validateForm,
 } from "../../form/formFramework";
 import Auxiliary from "../../hoc/Auxiliary/Auxiliary";
+import axios from "../../axios/axios-quiz";
 
 function createOptionControl(number) {
   return createControl(
     {
       label: `Вариант ${number}`,
       errorMessage: "Значение не может быть пустым",
+      id: number,
     },
     { required: true }
   );
@@ -24,8 +26,8 @@ function createFormControls() {
   return {
     question: createControl(
       {
-        label: "Введите название",
-        errorMessage: "Поле не может быть пустым",
+        label: "Введите вопрос",
+        errorMessage: "Вопрос не может быть пустым",
       },
       { required: true }
     ),
@@ -44,7 +46,7 @@ export default class QuizCreator extends Component {
     formControls: createFormControls(),
   };
 
-  submitHandler = (event) => {
+  sibmitHandler = (event) => {
     event.preventDefault();
   };
 
@@ -73,6 +75,7 @@ export default class QuizCreator extends Component {
         { text: option4.value, id: option4.id },
       ],
     };
+
     quiz.push(questionItem);
 
     this.setState({
@@ -83,18 +86,31 @@ export default class QuizCreator extends Component {
     });
   };
 
-  createQuizHandler = (event) => {
-    event.preventDefault()
+  createQuizHandler = async (event) => {
+    event.preventDefault();
 
-    console.log(this.state.quiz)
+    try {
+      await axios.post("/quizes.json", this.state.quiz);
+
+      this.setState({
+        quiz: [],
+        isFormValid: false,
+        rightAnswerId: 1,
+        formControls: createFormControls(),
+      });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   changeHandler = (value, controlName) => {
     const formControls = { ...this.state.formControls };
     const control = { ...formControls[controlName] };
+
     control.touched = true;
     control.value = value;
     control.valid = validate(control.value, control.validation);
+
     formControls[controlName] = control;
 
     this.setState({
@@ -110,24 +126,26 @@ export default class QuizCreator extends Component {
       return (
         <Auxiliary key={controlName + index}>
           <Input
-            key={controlName + index}
-            value={control.value}
             label={control.label}
-            errorMessage={control.errorMessage}
+            value={control.value}
             valid={control.valid}
             shouldValidate={!!control.validation}
             touched={control.touched}
+            errorMessage={control.errorMessage}
             onChange={(event) =>
               this.changeHandler(event.target.value, controlName)
             }
           />
+          {index === 0 ? <hr /> : null}
         </Auxiliary>
       );
     });
   }
 
   selectChangeHandler = (event) => {
-    console.log(event.target.value);
+    this.setState({
+      rightAnswerId: +event.target.value,
+    });
   };
 
   render() {
@@ -144,10 +162,12 @@ export default class QuizCreator extends Component {
         ]}
       />
     );
+
     return (
       <div className={classes.QuizCreator}>
         <div>
-          <h1>Quiz Creator</h1>
+          <h1>Создание теста</h1>
+
           <form onSubmit={this.submitHandler}>
             {this.renderControls()}
 
@@ -160,6 +180,7 @@ export default class QuizCreator extends Component {
             >
               Добавить вопрос
             </Button>
+
             <Button
               type="success"
               onClick={this.createQuizHandler}
